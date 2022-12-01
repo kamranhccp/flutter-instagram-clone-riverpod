@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "551369702999",
+    "project_id": "instagram-clone-kamranhccp",
+    "storage_bucket": "instagram-clone-kamranhccp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551369702999:android:9e9f07b8447e760917ed12",
+        "android_client_info": {
+          "package_name": "com.kamranhccp.instagramclone.instagram_clone_kamranhccp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "551369702999-vojoo517mb42ghlroeog2o5dbgt0lbj9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmY8-QbS6UiUdojE9W0MKhBhd8PcESSlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551369702999-vojoo517mb42ghlroeog2o5dbgt0lbj9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
