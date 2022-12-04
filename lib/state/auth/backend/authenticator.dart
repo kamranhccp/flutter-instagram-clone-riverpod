@@ -7,6 +7,7 @@ import '../constants/constants.dart';
 import '../models/auth_results.dart';
 
 class Authenticator {
+  const Authenticator();
   // get current user
   User? get currentUser => FirebaseAuth.instance.currentUser;
 

@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
           ),
           TextButton(
             onPressed: () async {
-              final results = await Authenticator().loginWithFacebook();
+              final results = await const Authenticator().loginWithFacebook();
               results.log();
             },
             child: const Text(
