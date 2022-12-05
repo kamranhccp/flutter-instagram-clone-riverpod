@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:instagram_clone_kamranhccp/state/auth/backend/authenticator.dart';
+import 'package:instagram_clone_kamranhccp/state/auth/models/auth_results.dart';
+import 'package:instagram_clone_kamranhccp/state/auth/providers/auth_state_provider.dart';
+import 'package:instagram_clone_kamranhccp/state/auth/providers/is_logged_in_provider.dart';
 import 'firebase_options.dart';
 
 import 'dart:developer' as developer show log;
@@ -14,7 +18,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -32,30 +40,64 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       themeMode: ThemeMode.dark,
-      home: const Home(),
+      home: Consumer(
+        builder: (context, ref, watch) {
+          final isLoggedIn = ref.watch(isLoggedInProvider);
+          if (isLoggedIn) {
+            return const MainView();
+          } else {
+            return const LoginView();
+          }
+        },
+      ),
     );
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+// when you are already logged in
+class MainView extends StatelessWidget {
+  const MainView({Key? key}) : super(key: key);
 
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Instagram"),
+        title: const Text("Main View"),
+      ),
+      body: Consumer(builder: (context, ref, watch) {
+        return TextButton(
+          onPressed: () async {
+            await ref.read(authStateProvider.notifier).logOut();
+          },
+          child: const Text(
+            "Logout",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        );
+      }),
+    );
+  }
+}
+
+// when you are not logged in
+class LoginView extends StatelessWidget {
+  const LoginView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Login View",
+        ),
       ),
       body: Column(
         children: [
           TextButton(
             onPressed: () async {
-              final results = await Authenticator().loginWithGoogle();
+              final results = await const Authenticator().loginWithGoogle();
               results.log();
             },
             child: const Text(
