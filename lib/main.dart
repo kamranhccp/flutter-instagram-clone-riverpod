@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:instagram_clone_kamranhccp/state/auth/backend/authenticator.dart';
-import 'package:instagram_clone_kamranhccp/state/auth/models/auth_results.dart';
 import 'package:instagram_clone_kamranhccp/state/auth/providers/auth_state_provider.dart';
 import 'package:instagram_clone_kamranhccp/state/auth/providers/is_logged_in_provider.dart';
 import 'firebase_options.dart';
@@ -43,6 +41,7 @@ class MyApp extends StatelessWidget {
       home: Consumer(
         builder: (context, ref, watch) {
           final isLoggedIn = ref.watch(isLoggedInProvider);
+          isLoggedIn.log();
           if (isLoggedIn) {
             return const MainView();
           } else {
@@ -64,29 +63,31 @@ class MainView extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Main View"),
       ),
-      body: Consumer(builder: (context, ref, watch) {
-        return TextButton(
-          onPressed: () async {
-            await ref.read(authStateProvider.notifier).logOut();
-          },
-          child: const Text(
-            "Logout",
-            style: TextStyle(
-              color: Colors.white,
+      body: Consumer(
+        builder: (context, ref, watch) {
+          return TextButton(
+            onPressed: () async {
+              await ref.read(authStateProvider.notifier).logOut();
+            },
+            child: const Text(
+              "Logout",
+              style: TextStyle(
+                fontSize: 20,
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }
 
 // when you are not logged in
-class LoginView extends StatelessWidget {
+class LoginView extends ConsumerWidget {
   const LoginView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -96,19 +97,13 @@ class LoginView extends StatelessWidget {
       body: Column(
         children: [
           TextButton(
-            onPressed: () async {
-              final results = await const Authenticator().loginWithGoogle();
-              results.log();
-            },
+            onPressed: ref.read(authStateProvider.notifier).loginWithGoogle,
             child: const Text(
               "Login with Google",
             ),
           ),
           TextButton(
-            onPressed: () async {
-              final results = await const Authenticator().loginWithFacebook();
-              results.log();
-            },
+            onPressed: ref.read(authStateProvider.notifier).loginWithFacebook,
             child: const Text(
               "Login with Facebook",
             ),

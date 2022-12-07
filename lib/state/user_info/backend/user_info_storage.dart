@@ -49,7 +49,7 @@ class UserInfoStorage {
             payload,
           );
       return true;
-    } catch (e) {
+    } catch (_) {
       return false;
     }
   }
