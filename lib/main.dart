@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:instagram_clone_kamranhccp/state/auth/providers/auth_state_provider.dart';
 import 'package:instagram_clone_kamranhccp/state/auth/providers/is_logged_in_provider.dart';
+import 'package:instagram_clone_kamranhccp/views/components/loading/loading_screen.dart';
 import 'firebase_options.dart';
 
 import 'dart:developer' as developer show log;
