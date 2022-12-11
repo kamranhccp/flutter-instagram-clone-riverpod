@@ -6,6 +6,7 @@ import 'package:instagram_clone_kamranhccp/state/auth/providers/is_logged_in_pro
 import 'package:instagram_clone_kamranhccp/state/providers/is_loading_provider.dart';
 import 'package:instagram_clone_kamranhccp/views/components/loading/loading_screen.dart';
 import 'package:instagram_clone_kamranhccp/views/login/login_view.dart';
+import 'package:instagram_clone_kamranhccp/views/main/main_view.dart';
 import 'firebase_options.dart';
 
 import 'dart:developer' as developer show log;
@@ -64,35 +65,6 @@ class MyApp extends StatelessWidget {
           } else {
             return const LoginView();
           }
-        },
-      ),
-    );
-  }
-}
-
-// when you are already logged in
-class MainView extends StatelessWidget {
-  const MainView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Main View"),
-      ),
-      body: Consumer(
-        builder: (context, ref, watch) {
-          return TextButton(
-            onPressed: () async {
-              await ref.read(authStateProvider.notifier).logOut();
-            },
-            child: const Text(
-              "Logout",
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-          );
         },
       ),
     );

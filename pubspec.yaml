@@ -80,9 +80,9 @@ flutter:
 
   assets:
     - assests/animations/data_not_found.json
+    - assests/animations/loading.json
     - assests/animations/empty.json
     - assests/animations/error.json
-    - assests/animations/loading.json
     - assests/animations/small_error.json
   # To add assets to your application, add an assets section, like this:
   # assets:

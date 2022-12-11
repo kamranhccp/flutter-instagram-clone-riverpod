@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'empty_contents_animation_view.dart';
+import 'package:instagram_clone_kamranhccp/views/components/animations/empty_contents_animation_view.dart';
 
 class EmptyContentsWithTextAnimationView extends StatelessWidget {
   final String text;
