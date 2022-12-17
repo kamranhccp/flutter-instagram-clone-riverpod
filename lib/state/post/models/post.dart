@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:instagram_clone_kamranhccp/state/image_upload/models/file_type.dart';
 import 'package:instagram_clone_kamranhccp/state/post/models/post_key.dart';
@@ -23,7 +24,7 @@ class Post {
     required Map<String, dynamic> json,
   })  : userId = json[PostKey.userID],
         message = json[PostKey.message],
-        createdAt = DateTime.parse(json[PostKey.createdAt]),
+        createdAt = (json[PostKey.createdAt] as Timestamp).toDate(),
         thumbnailUrl = json[PostKey.thumbnailUrl],
         fileUrl = json[PostKey.fileUrl],
         fileType = FileType.values.firstWhere(

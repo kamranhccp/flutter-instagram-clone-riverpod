@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:instagram_clone_kamranhccp/state/auth/providers/auth_state_provider.dart';
+import 'package:instagram_clone_kamranhccp/state/image_upload/models/file_type.dart';
+import 'package:instagram_clone_kamranhccp/state/post_setting/providers/post_settings_provider.dart';
 import 'package:instagram_clone_kamranhccp/views/components/dialogs/alert_dialog_model.dart';
 import 'package:instagram_clone_kamranhccp/views/components/dialogs/logout_dialog.dart';
 import 'package:instagram_clone_kamranhccp/views/constants/strings.dart';
+import 'package:instagram_clone_kamranhccp/views/create_new_post/create_new_post_view.dart';
 
+import '../../state/image_upload/helpers/image_picker_helper.dart';
 import '../tabs/user_posts/user_post_view.dart';
 
 class MainView extends ConsumerStatefulWidget {
@@ -26,14 +30,62 @@ class _MainViewState extends ConsumerState<MainView> {
           title: const Text(Strings.appName),
           actions: [
             IconButton(
-              onPressed: () async {},
+              onPressed: () async {
+                // pick a video
+                final videoFile =
+                    await ImagePickerHelper.pickVideoFromGallery();
+                if (videoFile == null) {
+                  return;
+                }
+
+                ref.refresh(postSettingProvider);
+
+                // go to Screen to create new Post
+                if (!mounted) {
+                  return;
+                }
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CreateNewPostView(
+                      fileToUpload: videoFile,
+                      fileType: FileType.video,
+                    ),
+                  ),
+                );
+              },
               icon: const Icon(
                 Icons.video_camera_back_outlined,
                 color: Colors.lightBlue,
               ),
             ),
             IconButton(
-              onPressed: () async {},
+              onPressed: () async {
+                // pick an Image
+                final imageFile =
+                    await ImagePickerHelper.pickImageFromGallery();
+                if (imageFile == null) {
+                  return;
+                }
+
+                ref.refresh(postSettingProvider);
+
+                // go to Screen to create new Post
+                if (!mounted) {
+                  return;
+                }
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CreateNewPostView(
+                      fileToUpload: imageFile,
+                      fileType: FileType.image,
+                    ),
+                  ),
+                );
+              },
               icon: const Icon(
                 Icons.image_outlined,
                 color: Colors.lightBlue,

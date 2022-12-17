@@ -1,7 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:instagram_clone_kamranhccp/state/posts/typedef/user_id.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../constants/constants.dart';
 import '../models/auth_results.dart';
@@ -14,6 +14,9 @@ class Authenticator {
   // user getter that gets the user current userID and returns the user id
   UserId? get userID => currentUser?.uid;
 
+  // Extra: Get User Credentials Details - Ft. Profile Data
+  // String? get userName => currentUser?.displayName;
+  // String? get userEmail => currentUser?.email;
   // we check if user is already logged in
   // as long as userID is not null then user is logged in
   bool isAlreadyLoggedIn() => userID != null;
