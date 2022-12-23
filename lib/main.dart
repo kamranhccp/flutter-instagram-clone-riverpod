@@ -37,14 +37,14 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Colors.blueGrey[400],
+        scaffoldBackgroundColor: Colors.grey[900],
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.blueGrey[900],
         ),
       ),
       theme: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
       themeMode: ThemeMode.dark,
       home: Consumer(

@@ -10,6 +10,7 @@ import 'package:instagram_clone_kamranhccp/views/create_new_post/create_new_post
 import 'package:instagram_clone_kamranhccp/views/tabs/search/search_view.dart';
 
 import '../../state/image_upload/helpers/image_picker_helper.dart';
+import '../tabs/home/home_view.dart';
 import '../tabs/user_posts/user_post_view.dart';
 
 class MainView extends ConsumerStatefulWidget {
@@ -131,7 +132,7 @@ class _MainViewState extends ConsumerState<MainView> {
           children: [
             UserPostView(),
             SearchView(),
-            UserPostView(),
+            HomeView(),
           ],
         ),
       ),

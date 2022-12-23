@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:instagram_clone_kamranhccp/views/components/animations/data_not_found_animation_view.dart';
 import 'package:instagram_clone_kamranhccp/views/components/animations/empty_contents_with_text_animation_view.dart';
-import 'package:instagram_clone_kamranhccp/views/components/post/post_grid_view.dart';
+import 'package:instagram_clone_kamranhccp/views/components/post/post_sliver_grid_view.dart';
 import 'package:instagram_clone_kamranhccp/views/constants/strings.dart';
 
 import '../../state/posts/providers/post_by_search_term_provider.dart';
@@ -19,7 +19,7 @@ class SearchGridView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (searchTerm.isEmpty) {
-      return const Center(
+      return const SliverToBoxAdapter(
         child: EmptyContentsWithTextAnimationView(
           text: Strings.enterYourSearchTerm,
         ),
@@ -33,17 +33,21 @@ class SearchGridView extends ConsumerWidget {
     );
     return posts.when(
       data: (posts) => posts.isEmpty
-          ? const Center(
+          ? const SliverToBoxAdapter(
               child: DataNotFoundAnimationView(),
             )
-          : PostGridView(
+          : PostsSliverGridView(
               posts: posts,
             ),
       error: (error, stackTrace) {
-        return const SmallErrorAnimationView();
+        return const SliverToBoxAdapter(
+          child: SmallErrorAnimationView(),
+        );
       },
-      loading: () => const Center(
-        child: CircularProgressIndicator(),
+      loading: () => const SliverToBoxAdapter(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
       ),
     );
   }
