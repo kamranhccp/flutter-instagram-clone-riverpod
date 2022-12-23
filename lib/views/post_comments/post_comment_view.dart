@@ -1,0 +1,174 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:instagram_clone_kamranhccp/state/comments/models/post_comments_request.dart';
+import 'package:instagram_clone_kamranhccp/state/posts/typedef/post_id.dart';
+import 'package:instagram_clone_kamranhccp/views/components/animations/empty_contents_with_text_animation_view.dart';
+import 'package:instagram_clone_kamranhccp/views/components/animations/error_animation_view.dart';
+import 'package:instagram_clone_kamranhccp/views/components/animations/loading_animation_view.dart';
+import 'package:instagram_clone_kamranhccp/views/extensions/dismiss_keyboard.dart';
+
+import '../../state/auth/providers/user_id_provider.dart';
+import '../../state/comments/providers/post_comment_provider.dart';
+import '../../state/comments/providers/send_comment_provider.dart';
+import '../components/comment/comment_tile.dart';
+import '../constants/strings.dart';
+
+class PostCommentsView extends HookConsumerWidget {
+  final PostId postId;
+
+  const PostCommentsView({
+    super.key,
+    required this.postId,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final commentController = useTextEditingController();
+
+    final hastText = useState(false);
+
+    final request = useState(
+      RequestForPostAndComment(
+        postId: postId,
+      ),
+    );
+
+    final comments = ref.watch(
+      postCommentProvider(
+        request.value,
+      ),
+    );
+
+    useEffect(() {
+      commentController.addListener(() {
+        hastText.value = commentController.text.isNotEmpty;
+      });
+      return () {};
+    }, [commentController]);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(Strings.comments),
+        actions: [
+          IconButton(
+            onPressed: hastText.value
+                ? () {
+                    _submitCommentWithController(
+                      commentController,
+                      ref,
+                    );
+                  }
+                : null,
+            icon: const Icon(
+              Icons.send_and_archive_outlined,
+            ),
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: Flex(
+          direction: Axis.vertical,
+          children: [
+            Expanded(
+              flex: 4,
+              child: comments.when(
+                data: (comments) {
+                  if (comments.isEmpty) {
+                    return const SingleChildScrollView(
+                      child: EmptyContentsWithTextAnimationView(
+                        text: Strings.noCommentsYet,
+                      ),
+                    );
+                  }
+                  return RefreshIndicator(
+                    onRefresh: () {
+                      ref.refresh(
+                        postCommentProvider(request.value),
+                      );
+                      return Future.delayed(
+                        const Duration(
+                          seconds: 1,
+                        ),
+                      );
+                    },
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(
+                        8.0,
+                      ),
+                      itemCount: comments.length,
+                      itemBuilder: (context, index) {
+                        final comment = comments.elementAt(index);
+                        return CommentTile(
+                          comment: comment,
+                        );
+                      },
+                    ),
+                  );
+                },
+                loading: () {
+                  return const LoadingAnimationView();
+                },
+                error: (error, stackTrace) {
+                  return const ErrorAnimationView();
+                },
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10.0, right: 10.0, bottom: 14.0),
+                  child: TextField(
+                    textInputAction: TextInputAction.send,
+                    controller: commentController,
+                    onSubmitted: (comment) {
+                      _submitCommentWithController(
+                        commentController,
+                        ref,
+                      );
+                    },
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(28.0),
+                        ),
+                      ),
+                      labelText: Strings.writeYourCommentHere,
+                      // hintText: Strings.writeYourCommentHere,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _submitCommentWithController(
+    TextEditingController controller,
+    WidgetRef ref,
+  ) async {
+    final userId = ref.read(userIdProvider);
+    if (userId == null) {
+      return;
+    }
+    final isSent = await ref
+        .read(
+          sendCommentProvider.notifier,
+        )
+        .sendComment(
+          userId: userId,
+          onPostId: postId,
+          comment: controller.text,
+        );
+    if (isSent) {
+      controller.clear();
+      dismissKeyboard();
+    }
+  }
+}

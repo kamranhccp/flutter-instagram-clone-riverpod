@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_kamranhccp/views/components/loading/loading_screen_controller.dart';
 
@@ -8,7 +7,9 @@ import '../constants/strings.dart';
 
 class LoadingScreen {
   LoadingScreen._sharedInstance();
+
   static final LoadingScreen _shared = LoadingScreen._sharedInstance();
+
   factory LoadingScreen.instance() => _shared;
 
   LoadingScreenController? _controller;

@@ -1,12 +1,14 @@
 import 'dart:ui';
+
 import 'package:flutter/foundation.dart' show immutable, VoidCallback;
-import 'package:flutter/material.dart' show TextStyle, Colors, Decoration;
+import 'package:flutter/material.dart' show TextStyle, Colors;
 import 'package:instagram_clone_kamranhccp/views/components/rich_text/link_text.dart';
 
 @immutable
 class BaseText {
   final String text;
   final TextStyle? style;
+
   bool get isLinkedText => this is LinkText;
 
   const BaseText({

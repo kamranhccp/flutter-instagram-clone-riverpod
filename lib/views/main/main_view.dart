@@ -7,6 +7,7 @@ import 'package:instagram_clone_kamranhccp/views/components/dialogs/alert_dialog
 import 'package:instagram_clone_kamranhccp/views/components/dialogs/logout_dialog.dart';
 import 'package:instagram_clone_kamranhccp/views/constants/strings.dart';
 import 'package:instagram_clone_kamranhccp/views/create_new_post/create_new_post_view.dart';
+import 'package:instagram_clone_kamranhccp/views/tabs/search/search_view.dart';
 
 import '../../state/image_upload/helpers/image_picker_helper.dart';
 import '../tabs/user_posts/user_post_view.dart';
@@ -55,14 +56,14 @@ class _MainViewState extends ConsumerState<MainView> {
                   ),
                 );
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.video_camera_back_outlined,
-                color: Colors.lightBlue,
+                color: Colors.blueGrey[200],
               ),
             ),
             IconButton(
               onPressed: () async {
-                // pick an Image
+                // pick an  Image
                 final imageFile =
                     await ImagePickerHelper.pickImageFromGallery();
                 if (imageFile == null) {
@@ -86,9 +87,9 @@ class _MainViewState extends ConsumerState<MainView> {
                   ),
                 );
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.image_outlined,
-                color: Colors.lightBlue,
+                color: Colors.blueGrey[200],
               ),
             ),
             IconButton(
@@ -100,9 +101,9 @@ class _MainViewState extends ConsumerState<MainView> {
                   await ref.read(authStateProvider.notifier).logOut();
                 }
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.login_outlined,
-                color: Colors.lightBlue,
+                color: Colors.blueGrey[200],
               ),
             ),
           ],
@@ -111,19 +112,16 @@ class _MainViewState extends ConsumerState<MainView> {
               Tab(
                 icon: Icon(
                   Icons.person_outline_sharp,
-                  color: Colors.greenAccent,
                 ),
               ),
               Tab(
                 icon: Icon(
                   Icons.manage_search,
-                  color: Colors.greenAccent,
                 ),
               ),
               Tab(
                 icon: Icon(
                   Icons.home_outlined,
-                  color: Colors.greenAccent,
                 ),
               ),
             ],
@@ -132,7 +130,7 @@ class _MainViewState extends ConsumerState<MainView> {
         body: const TabBarView(
           children: [
             UserPostView(),
-            UserPostView(),
+            SearchView(),
             UserPostView(),
           ],
         ),

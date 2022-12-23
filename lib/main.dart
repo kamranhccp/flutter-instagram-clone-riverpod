@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
+import 'dart:developer' as developer show log;
+
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:instagram_clone_kamranhccp/state/auth/providers/auth_state_provider.dart';
 import 'package:instagram_clone_kamranhccp/state/auth/providers/is_logged_in_provider.dart';
 import 'package:instagram_clone_kamranhccp/state/providers/is_loading_provider.dart';
 import 'package:instagram_clone_kamranhccp/views/components/loading/loading_screen.dart';
 import 'package:instagram_clone_kamranhccp/views/login/login_view.dart';
 import 'package:instagram_clone_kamranhccp/views/main/main_view.dart';
-import 'firebase_options.dart';
 
-import 'dart:developer' as developer show log;
+import 'firebase_options.dart' '';
 
 extension Log on Object {
   void log() => developer.log(toString());
@@ -36,7 +36,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      darkTheme: ThemeData.dark(),
+      darkTheme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Colors.blueGrey[400],
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.blueGrey[900],
+        ),
+      ),
       theme: ThemeData(
         brightness: Brightness.dark,
         primarySwatch: Colors.blue,

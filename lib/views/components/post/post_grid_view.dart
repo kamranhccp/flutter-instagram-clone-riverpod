@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_kamranhccp/views/components/post/post_thumbnail_views.dart';
+
 import '../../../state/post/models/post.dart';
+import '../../post_details/post_details_view.dart';
 
 class PostGridView extends StatelessWidget {
   final Iterable<Post> posts;
+
   const PostGridView({
     Key? key,
     required this.posts,
@@ -23,7 +26,16 @@ class PostGridView extends StatelessWidget {
         final post = posts.elementAt(index);
         return PostThumbnailView(
           post: post,
-          onTapped: () {},
+          onTapped: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => PostDetailsView(
+                  post: post,
+                ),
+              ),
+            );
+          },
         );
       },
     );
